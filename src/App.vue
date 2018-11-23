@@ -23,7 +23,8 @@ export default {
       menuShow: false,
 
       linkMenu: [
-        {title: 'Home', url: '/'},
+        {title: '+ Add New', url: '/'},
+        {title: 'Current List', url: '/task'},
         {title: 'Login', url: '/login'},
         {title: 'Registration', url: '/registration'}
       ]
@@ -33,8 +34,7 @@ export default {
 </script>
 
 <style lang="stylus">
-  #app
-    padding 30px
-    background-color #333
-    color #fff
+  .header-logo
+    font-size 30px
+    font-weight 700
 </style>

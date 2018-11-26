@@ -37,4 +37,8 @@ export default {
   .header-logo
     font-size 30px
     font-weight 700
+
+  input
+    font-size 14px
+    line-height 20px
 </style>

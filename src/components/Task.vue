@@ -5,7 +5,7 @@
         .task-list__header
           h1.ui-title-1 Tasks
           .task-list__filters
-            p {{ filter }}
+            p.console-log console.log => filter: {{ filter }}
             .button.button--round.button-default.task-list__filters-btn(@click="filter = 'active'") Active
             .button.button--round.button-default.task-list__filters-btn(@click="filter = 'completed'") Completed
             .button.button--round.button-default.task-list__filters-btn(@click="filter = 'all'") All

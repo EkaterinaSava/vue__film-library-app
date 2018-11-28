@@ -57,7 +57,7 @@
                 .ui-tag(@click="addTagUsed(tag)", :class="{active: tag.use}")
                   span.tag-title {{ tag.title}}
                   span.button-close
-          p {{ tagsUsed }}
+          p.console-log console.log => tagsUsed: {{ tagsUsed }}
 
         .button-list
           .button.button--round.button-primary(@click="newTask") Send
@@ -82,24 +82,24 @@ export default {
       // tags
       tagTitle: '',
       showAddTagForm: false,
-      tagsUsed: [],
-      tags: [
-        {title: 'Comedy', use: false},
-        {title: 'Westerns', use: false},
-        {title: 'Adventure', use: false}
-      ]
+      tagsUsed: []
     }
   },
+
   methods: {
     newTag () {
       if (this.taskTitle === '') {
         return
       }
-      this.tags.push({
+
+      const tag = {
         title: this.tagTitle,
-        used: false
-      })
+        use: false
+      }
+
+      this.$store.dispatch('newTag', tag)
     },
+
     newTask () {
       if (this.taskTitle === '') {
         return
@@ -126,7 +126,12 @@ export default {
       this.taskTitle = ''
       this.taskDescription = ''
       this.tagsUsed = []
+
+      for (let i = 0; i < this.tags.length; i++) {
+        this.tags[i].use = false
+      }
     },
+
     addTagUsed (tag) {
       tag.use = !tag.use
       if (tag.use) {
@@ -137,17 +142,25 @@ export default {
         this.tagsUsed.splice(tag.title, 1)
       }
     },
+
     getHoursAndMinutes (minutes) {
       let hours = Math.trunc(minutes / 60)
       let mins = minutes % 60
       return hours + ' Hours ' + mins + ' Minutes'
     }
   },
+
   computed: {
+    tags () {
+      return this.$store.getters.tags
+    },
+
+    // total time: films + serials
     filmTime () {
       let mins = (this.filmHours * 60) + (this.filmMinutes * 1)
       return this.getHoursAndMinutes(mins)
     },
+
     serialTime () {
       let mins = this.serialSeasons * this.serialSeries * this.serialSeriesMinutes
       return this.getHoursAndMinutes(mins)

@@ -41,4 +41,11 @@ export default {
   input
     font-size 14px
     line-height 20px
+
+  .console-log
+    display inline-flex
+    color #4fc08d
+    border 1px solid #4fc08d
+    padding 5px
+    margin 10px
 </style>

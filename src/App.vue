@@ -48,4 +48,7 @@ export default {
     border 1px solid #4fc08d
     padding 5px
     margin 10px
+
+  .content-wrapper
+    min-height auto
 </style>

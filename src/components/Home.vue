@@ -53,10 +53,11 @@
             .tag-list__text
               b Current tags:
             .tag-list
-              .ui-tag__wrapper(v-for="tag in tags", :key="tag.title")
-                .ui-tag(@click="addTagUsed(tag)", :class="{active: tag.use}")
-                  span.tag-title {{ tag.title}}
-                  span.button-close
+              transition-group(enter-active-class="animated fadeInRight", leave-active-class="animated fadeOutDown")
+                .ui-tag__wrapper(v-for="tag in tags", :key="tag.title")
+                  .ui-tag(@click="addTagUsed(tag)", :class="{active: tag.use}")
+                    span.tag-title {{ tag.title}}
+                    span.button-close
           p.console-log console.log => tagsUsed: {{ tagsUsed }}
 
         .button-list

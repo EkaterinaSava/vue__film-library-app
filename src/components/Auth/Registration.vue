@@ -117,6 +117,7 @@ export default {
 
         &.error
           border-color #f44336
+          animation shake .4s
 
       &-row
         margin-bottom 20px

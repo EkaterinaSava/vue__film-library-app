@@ -72,4 +72,67 @@ export default {
         &:hover
           color #444ce0
           border-bottom-color #444ce0
+
+  // ——Animation for Tasks——
+  // Active
+  .taskList-enter-active,
+  .taskList-leave-active
+    transition: all .6s
+
+  // Enter
+  .taskList-enter,
+  .taskList-leave-to
+    opacity: 0
+    transform: translateY(10px)
+
+  // ——Animation for Tags menu——
+  // Active
+  .fade-enter-active,
+  .fade-leave-active
+    transition: opacity .2s
+
+  // Enter
+  .fade-enter,
+  .fade-leave-to
+    opacity: 0
+
+  /*
+  Usage animate.css
+  https://daneden.github.io/animate.css/
+  */
+  .animated
+    animation-duration: 1s;
+    animation-fill-mode: both;
+
+  .fadeInRight
+    animation-name: fadeInRight
+  @keyframes fadeInRight
+    from
+      opacity: 0;
+      transform: translate3d(100%,0,0);
+    to
+      opacity: 1
+      transform: translate3d(0,0,0)
+
+  .fadeOutDown
+    animation-name: fadeOutDown
+  @keyframes fadeOutDown
+    from
+      opacity: 1
+    to
+      opacity: 0
+      transform: translate3d(0,100%,0)
+
+  .shake
+    animation-name: shake
+  @keyframes shake
+    from,
+    to
+      transform: translate3d(0, 0, 0);
+    20%,
+    60%
+      transform: translate3d(-10px, 0, 0);
+    40%,
+    80%
+      transform: translate3d(10px, 0, 0);
 </style>

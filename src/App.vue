@@ -51,4 +51,25 @@ export default {
 
   .content-wrapper
     min-height auto
+
+  .go-to
+    &__login
+      display flex
+      padding-left 50%
+      margin-top 20px
+
+      &-link,
+      &-text
+        font-size 16px
+        line-height 16px
+
+      &-link
+        border-bottom 1px solid
+        margin-left 5px
+        transition color .3s ease-out, border-bottom-color .3s ease-out
+        cursor pointer
+
+        &:hover
+          color #444ce0
+          border-bottom-color #444ce0
 </style>

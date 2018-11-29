@@ -3,7 +3,9 @@
     section
       .container
         .registartion
+          // —————————— REGISTRATION PICTURE —————————————————
           .registartion__banner
+          // —————————— REGISTRATION FORM ————————————————————
           .registartion__form
             h1.ui-title-1 Registration
             form.registartion__form-inner(@submit.prevent="onSubmit")
@@ -42,6 +44,11 @@
                 .registartion__form-btn-status(v-if="submitStatus === 'OK'") Thanks for your submission!
                 .registartion__form-btn-status(v-if="submitStatus === 'ERROR'") Please fill the form correctly.
                 .registartion__form-btn-status(v-if="submitStatus === 'PENDING'") Sending...
+          // —————————— GO TO LOGIN LINK —————————————————————
+        .go-to__login
+          span.go-to__login-text Already registred?
+          router-link.go-to__login-link(to="/login")
+            span Login
 </template>
 
 <script>

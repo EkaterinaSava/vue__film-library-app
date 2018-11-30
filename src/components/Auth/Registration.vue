@@ -8,42 +8,42 @@
           // —————————— REGISTRATION FORM ————————————————————
           .registartion__form
             h1.ui-title-1 Registration
-            form.registartion__form-inner(@submit.prevent="onSubmit")
-              .registartion__form-row(:class="{ 'registartion__form-row--error': $v.email.$error }")
-                input.registartion__form-input(
+            form.form(@submit.prevent="onSubmit")
+              .form__row(:class="{ 'form__row--error': $v.email.$error }")
+                input.form__input(
                   type="email",
                   placeholder="E-mail",
                   v-model="email",
                   :class="{ 'error': $v.email.$error }",
                   @change="$v.email.$touch()"
                 )
-                .registartion__form-error-msg(v-if="!$v.email.required") Attention! Field is required
-                .registartion__form-error-msg(v-if="!$v.email.email") Attention! Email is not correct
-              .registartion__form-row(:class="{ 'registartion__form-row--error': $v.password.$error }")
-                input.registartion__form-input(
+                .form__error-msg(v-if="!$v.email.required") Attention! Field is required
+                .form__error-msg(v-if="!$v.email.email") Attention! Email is not correct
+              .form__row(:class="{ 'form__row--error': $v.password.$error }")
+                input.form__input(
                   type="password",
                   placeholder="Password",
                   v-model="password",
                   :class="{ 'error': $v.password.$error }",
                   @change="$v.password.$touch()"
                 )
-                .registartion__form-error-msg(v-if="!$v.password.required") Attention! Field is required
-                .registartion__form-error-msg(v-if="!$v.password.minLength") Password must have at least {{ $v.password.$params.minLength.min }} letters
-              .registartion__form-row(:class="{ 'registartion__form-row--error': $v.passwordRepeat.$error }")
-                input.registartion__form-input(
+                .form__error-msg(v-if="!$v.password.required") Attention! Field is required
+                .form__error-msg(v-if="!$v.password.minLength") Password must have at least {{ $v.password.$params.minLength.min }} letters
+              .form__row(:class="{ 'form__row--error': $v.passwordRepeat.$error }")
+                input.form__input(
                   type="password",
                   placeholder="Repeat password",
                   v-model="passwordRepeat",
                   :class="{ 'error': $v.passwordRepeat.$error }",
                   @change="$v.passwordRepeat.$touch()"
                 )
-                .registartion__form-error-msg(v-if="!$v.passwordRepeat.required") Attention! Field is required
-                .registartion__form-error-msg(v-if="!$v.passwordRepeat.sameAsPassword") Passwords must be identical
-              .registartion__form-btn-wrapper
-                button.button.button-primary.registartion__form-btn(type="submit", :disabled="submitStatus === 'PENDING'") Registration
-                .registartion__form-btn-status(v-if="submitStatus === 'OK'") Thanks for your submission!
-                .registartion__form-btn-status(v-if="submitStatus === 'ERROR'") Please fill the form correctly.
-                .registartion__form-btn-status(v-if="submitStatus === 'PENDING'") Sending...
+                .form__error-msg(v-if="!$v.passwordRepeat.required") Attention! Field is required
+                .form__error-msg(v-if="!$v.passwordRepeat.sameAsPassword") Passwords must be identical
+              .form__btn-wrapper
+                button.button.button-primary.form__btn(type="submit", :disabled="submitStatus === 'PENDING'") Registration
+                .form__btn-status(v-if="submitStatus === 'OK'") Thanks for your submission!
+                .form__btn-status(v-if="submitStatus === 'ERROR'") Please fill the form correctly.
+                .form__btn-status(v-if="submitStatus === 'PENDING'") Sending...
           // —————————— GO TO LOGIN LINK —————————————————————
         .go-to__login
           span.go-to__login-text Already registred?
@@ -111,33 +111,4 @@ export default {
 
     &__form
       flex-basis 50%
-
-      &-input
-        margin-bottom 0
-
-        &.error
-          border-color #f44336
-          animation shake .4s
-
-      &-row
-        margin-bottom 20px
-
-      &-error-msg
-        display none
-        color #f44336
-        font-size 14px
-        line-height 20px
-        padding-top 5px
-
-      &-row--error &-error-msg
-        display block
-
-      &-btn
-        border 0
-        font-family: 'Montserrat', Helvetica, Arial, sans-serif
-
-        &-status
-          font-size 14px
-          line-height 20px
-          padding-top 5px
 </style>

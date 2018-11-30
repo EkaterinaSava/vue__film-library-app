@@ -3,9 +3,28 @@
     section
       .container
         h1.ui-title-1 + Add new
-        .add-new
-          input.add-new__input(type="text", placeholder="What we will watch?", v-model="taskTitle", @keyup.enter="newTask")
-          textarea.add-new__textarea(placeholder="Enter some description", v-model="taskDescription", @keyup.enter="newTask")
+
+        form(@submit.prevent="onSubmit").add-new
+          // —————————— ADD FILM/SERIAL TITLE ——————————
+          .form__row(:class="{ 'form__row--error': $v.taskTitle.$error }")
+            input.form__input.add-new__input(
+              type="text",
+              placeholder="What we will watch?",
+              v-model="taskTitle",
+              @change="$v.taskTitle.$touch()"
+              :class="{ 'error': $v.taskTitle.$error }"
+            )
+            .form__error-msg(v-if="!$v.taskTitle.required") Attention! Title is required
+
+          // —————————— ADD FILM/SERIAL DESCRIPTION ——————————
+          .form__row
+            textarea.add-new__textarea(
+              placeholder="Enter some description",
+              v-model="taskDescription",
+              @keyup.enter="newTask"
+            )
+
+          // —————————— CHOOSE FILM / SERIAL RADIO ——————————
           .add-new__what-watch
             label.add-new__what-watch-label
               input.add-new__what-watch-radio(type="radio", name="whatWatch", id="radioFilm", value="Film", v-model="whatWatch")
@@ -13,7 +32,8 @@
             label.add-new__what-watch-label
               input.add-new__what-watch-radio(type="radio", name="whatWatch", id="radioSerial", value="Serial", v-model="whatWatch")
               span.add-new__what-watch-label-text Serial
-          // —————————— total time ——————————
+
+          // —————————— TOTAL TIME ——————————
           .add-new__total-time
             // —— if films
             .add-new__total-time-film(v-if="whatWatch === 'Film' ")
@@ -40,15 +60,26 @@
               .add-new__total-time-text
                 b Total Serial Times:
                 span {{ serialTime }}
-          // —————————— tag list ——————————
+
+          // —————————— ADD NEW TAG ——————————
           .add-new__add-tag
+            // ——— add tag: buttton ———
             .ui-tag__wrapper(@click="showAddTagForm = !showAddTagForm")
               .ui-tag
                 span.tag-title Add New Tag
                 span.button-close(:class="{active: !showAddTagForm}")
-            .add-new__add-tag-form(v-if="showAddTagForm")
-              input.add-new__add-tag-form-input(type="text", placeholder="New tag", v-model="tagTitle", @keyup.enter="newTag")
-              .button.button-default.add-new__add-tag-form-button(@click="newTag") Send
+            // ——— add tag: form ———
+            transition(name="fade")
+              .add-new__add-tag-form(v-if="showAddTagForm")
+                input.add-new__add-tag-form-input(
+                  type="text",
+                  placeholder="New tag",
+                  v-model="tagTitle",
+                  @keyup.enter="newTag"
+                )
+                .button.button-default.add-new__add-tag-form-button(@click="newTag") Send
+
+          // —————————— CURRENT TAGS ——————————
           .add-new__current-tags
             .tag-list__text
               b Current tags:
@@ -60,14 +91,18 @@
                     span.button-close
           p.console-log console.log => tagsUsed: {{ tagsUsed }}
 
-        .button-list
-          .button.button--round.button-primary(@click="newTask") Send
+          // —————————— SEND FORM BTN ——————————
+          .button-list
+            button.button.button--round.button-primary(type="submit", :disabled="submitStatus === 'PENDING'") Send
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   data () {
     return {
+      submitStatus: null,
       taskTitle: '',
       taskDescription: '',
       whatWatch: 'Film',
@@ -87,7 +122,15 @@ export default {
     }
   },
 
+  validations: {
+    taskTitle: {
+      required
+    }
+  },
+
   methods: {
+
+    // —————ADD NEW TAG—————
     newTag () {
       if (this.taskTitle === '') {
         return
@@ -99,40 +142,12 @@ export default {
       }
 
       this.$store.dispatch('newTag', tag)
+
+      // Reset
+      this.tagTitle = ''
     },
 
-    newTask () {
-      if (this.taskTitle === '') {
-        return
-      }
-      let time
-      if (this.whatWatch === 'Film') {
-        time = this.filmTime
-      } else {
-        time = this.serialTime
-      }
-      const task = {
-        title: this.taskTitle,
-        description: this.taskDescription,
-        whatWatch: this.whatWatch,
-        time,
-        tags: this.tagsUsed,
-        completed: false,
-        editing: false
-      }
-      this.$store.dispatch('newTask', task)
-      console.log(task)
-
-      // reset: upd id for each new
-      this.taskTitle = ''
-      this.taskDescription = ''
-      this.tagsUsed = []
-
-      for (let i = 0; i < this.tags.length; i++) {
-        this.tags[i].use = false
-      }
-    },
-
+    // —————ADD TAG USED—————
     addTagUsed (tag) {
       tag.use = !tag.use
       if (tag.use) {
@@ -141,6 +156,62 @@ export default {
         })
       } else {
         this.tagsUsed.splice(tag.title, 1)
+      }
+    },
+
+    // —————Submit New Task—————
+    onSubmit () {
+      this.$v.$touch()
+
+      if (this.$v.$invalid) {
+        console.log('ERROR')
+        this.submitStatus = 'ERROR'
+      } else {
+        // Vaild
+        console.log('SEND')
+        this.submitStatus = 'PENDING'
+
+        // Firebase waiting
+        setTimeout(() => {
+          this.submitStatus = 'OK'
+        }, 500)
+
+        // Time
+        let time
+        if (this.whatWatch === 'Film') {
+          time = this.filmTime
+        } else {
+          time = this.serialTime
+        }
+
+        // Task
+        const task = {
+          title: this.taskTitle,
+          description: this.taskDescription,
+          whatWatch: this.whatWatch,
+          time,
+          tags: this.tagsUsed,
+          completed: false,
+          editing: false
+        }
+
+        this.$store.dispatch('newTask', task)
+
+        // Reset
+        this.taskTitle = ''
+        this.taskDescription = ''
+
+        // Reset $v (validate)
+        this.$v.$reset()
+
+        // Reset for Tags
+        this.tagMenuShow = false
+        this.tagsUsed = []
+        this.tagTitle = ''
+
+        for (let i = 0; i < this.tags.length; i++) {
+          this.tags[i].use = false
+        }
       }
     },
 

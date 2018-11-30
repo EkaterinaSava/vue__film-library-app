@@ -73,11 +73,42 @@ export default {
           color #444ce0
           border-bottom-color #444ce0
 
+  // ——Form Components——
+  .form
+    &__input
+      margin-bottom 0
+
+      &.error
+        border-color #f44336
+        animation shake .4s
+
+    &__row
+      margin-bottom 20px
+
+    &__error-msg
+      display none
+      color #f44336
+      font-size 14px
+      line-height 20px
+      padding-top 5px
+
+    &__row--error &__error-msg
+      display block
+
+    &__btn
+      border 0
+      font-family: 'Montserrat', Helvetica, Arial, sans-serif
+
+      &-status
+        font-size 14px
+        line-height 20px
+        padding-top 5px
+
   // ——Animation for Tasks——
   // Active
   .taskList-enter-active,
   .taskList-leave-active
-    transition: all .6s
+    transition: all .4s
 
   // Enter
   .taskList-enter,

@@ -4,31 +4,36 @@
       .container
         .task-list__header
           h1.ui-title-1 Tasks
+
+          // ————— TASKS FILTER —————
           .task-list__filters
             p.console-log console.log => filter: {{ filter }}
             .button.button--round.button-default.task-list__filters-btn(@click="filter = 'active'") Active
             .button.button--round.button-default.task-list__filters-btn(@click="filter = 'completed'") Completed
             .button.button--round.button-default.task-list__filters-btn(@click="filter = 'all'") All
+
+        // ————— TASK LIST ———————
         .task-list
-          .task-item(v-for="task in tasksFilter", :key="task.id", :class="{completed: task.completed}")
-            .ui-card.ui-card--shadow
-              .task-item__header
-                .task-item__header-info
-                  span.task-item__label.ui-label.ui-label--light {{ task.whatWatch }}
-                  span.task-item__info-time Total time: {{ task.time }}
-                .task-item__close.button-close
-              .task-item__content
-                .task-item__content-header.ui-checkbox-wrapper
-                  input.task-item__content-checkbox.ui-checkbox(type='checkbox', v-model="task.completed")
-                  .task-item__content-heading.ui-title-3 {{ task.title }}
-                .task-item__content-body
-                  .task-item__content-desc.ui-text-regular {{ task.description }}
-              .task-item__tags
-                // —————————— tag list ——————————
-                .tag-list
-                  .ui-tag__wrapper(v-for="tag in task.tags", :key="tag.title")
-                    .ui-tag
-                      span.tag-title {{ tag.title}}
+          transition-group(name="taskList")
+            .task-item(v-for="task in tasksFilter", :key="task.id", :class="{completed: task.completed}")
+              .ui-card.ui-card--shadow
+                .task-item__header
+                  .task-item__header-info
+                    span.task-item__label.ui-label.ui-label--light {{ task.whatWatch }}
+                    span.task-item__info-time Total time: {{ task.time }}
+                  .task-item__close.button-close
+                .task-item__content
+                  .task-item__content-header.ui-checkbox-wrapper
+                    input.task-item__content-checkbox.ui-checkbox(type='checkbox', v-model="task.completed")
+                    .task-item__content-heading.ui-title-3 {{ task.title }}
+                  .task-item__content-body
+                    .task-item__content-desc.ui-text-regular {{ task.description }}
+                .task-item__tags
+                  // —————————— tag list ——————————
+                  .tag-list
+                    .ui-tag__wrapper(v-for="tag in task.tags", :key="tag.title")
+                      .ui-tag
+                        span.tag-title {{ tag.title}}
 </template>
 
 <script>

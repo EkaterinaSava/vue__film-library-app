@@ -53,6 +53,12 @@ export default {
     loggedUser ({commit}, payload) {
       commit('setUser', new User(payload.uid))
       console.log(payload.uid)
+    },
+
+    // ———————————————————— LOGOUT —————————————————————————
+    logoutUser ({commit}) {
+      firebase.auth().signOut()
+      commit('setUser', null)
     }
   },
 

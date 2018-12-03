@@ -13,6 +13,9 @@
               ul.navbar-list
                 li.navbar-item(v-for="link in linkMenu", :key="link.title", @click="menuShow = false")
                   router-link.navbar-link(:to="`${link.url}`") {{ link.title }}
+                // show 'log out' when user is logged
+                li.navbar-item(v-if="checkUser", @click="logout")
+                  span.navbar-link Log out
     router-view
 </template>
 
@@ -20,11 +23,33 @@
 export default {
   data () {
     return {
-      menuShow: false,
+      menuShow: false
+    }
+  },
 
-      linkMenu: [
-        {title: '+ Add New', url: '/'},
-        {title: 'Current List', url: '/task'},
+  methods: {
+    logout () {
+      this.$store.dispatch('logoutUser')
+      this.$router.push('/login')
+    }
+  },
+
+  computed: {
+    // user logged or not?
+    checkUser () {
+      return this.$store.getters.checkUser
+    },
+
+    linkMenu () {
+      // if user LOGGED show Home & Task pages
+      if (this.checkUser) {
+        return [
+          {title: '+ Add New', url: '/'},
+          {title: 'Current List', url: '/task'}
+        ]
+      }
+      // if user NOT LOGGED show Login & Reg pages
+      return [
         {title: 'Login', url: '/login'},
         {title: 'Registration', url: '/registration'}
       ]

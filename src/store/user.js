@@ -47,6 +47,12 @@ export default {
         commit('setError', error.message)
         throw error
       }
+    },
+
+    // —————————————————— WHEN USER LOGGED —————————————————
+    loggedUser ({commit}, payload) {
+      commit('setUser', new User(payload.uid))
+      console.log(payload.uid)
     }
   },
 

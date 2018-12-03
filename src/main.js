@@ -36,5 +36,12 @@ new Vue({
       messagingSenderId: '283848193269'
     }
     firebase.initializeApp(config)
+
+    // dont unlogin after page reload
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch('loggedUser', user)
+      }
+    })
   }
 })

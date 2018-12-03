@@ -1,3 +1,4 @@
+// code-template for async methods
 async method ({commit}, payload) {
   commit('clearError')
   commit('setLoading', true)

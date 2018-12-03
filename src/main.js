@@ -42,6 +42,9 @@ new Vue({
       if (user) {
         this.$store.dispatch('loggedUser', user)
       }
+
+      // load all tasks from firebase for this user
+      this.$store.dispatch('loadTasks')
     })
   }
 })

@@ -13,6 +13,7 @@ export default {
   },
 
   actions: {
+    // ——————————————————— REGISTRATION ———————————————————
     async registerUser ({commit}, {email, password}) {
       commit('clearError')
       commit('setLoading', true)
@@ -20,6 +21,24 @@ export default {
       try {
         // if 'done' logic:
         const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        commit('setUser', new User(user.user.uid))
+        commit('setLoading', false)
+        console.log(user)
+      } catch (error) {
+        commit('setLoading', false)
+        commit('setError', error.message)
+        throw error
+      }
+    },
+
+    // ——————————————————————— LOGIN ———————————————————————
+    async loginUser ({commit}, {email, password}) {
+      commit('clearError')
+      commit('setLoading', true)
+
+      try {
+        // if 'done' logic:
+        const user = await firebase.auth().signInWithEmailAndPassword(email, password)
         commit('setUser', new User(user.user.uid))
         commit('setLoading', false)
         console.log(user)

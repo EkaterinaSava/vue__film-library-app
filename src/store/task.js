@@ -24,7 +24,7 @@ export default {
   },
 
   actions: {
-    async loadTasks ({commit}, payload) {
+    async loadTasks ({commit}) {
       commit('clearError')
       commit('setLoading', true)
       try {
@@ -108,6 +108,21 @@ export default {
           description
         })
         commit('editTask', {id, title, description})
+
+        commit('setLoading', true)
+      } catch (error) {
+        commit('setLoading', false)
+        commit('setError', error.message)
+        throw error
+      }
+    },
+
+    async deleteTask ({commit}, id) {
+      commit('clearError')
+      commit('setLoading', true)
+      try {
+        // if 'done' logic:
+        await firebase.database().ref('tasks').child(id).remove()
 
         commit('setLoading', true)
       } catch (error) {

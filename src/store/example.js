@@ -3,7 +3,7 @@ async method ({commit}, payload) {
   commit('clearError')
   commit('setLoading', true)
   try {
-    // done
+    // if 'done' logic:
     commit('setLoading', true)
   } catch (error) {
     commit('setLoading', false)

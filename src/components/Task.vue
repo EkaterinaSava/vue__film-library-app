@@ -21,7 +21,7 @@
                   .task-item__header-info
                     span.task-item__label.ui-label.ui-label--light {{ task.whatWatch }}
                     span.task-item__info-time Total time: {{ task.time }}
-                  .task-item__close.button-close
+                  .task-item__close.button-close(@click="deleteTask(task.id)")
                 .task-item__content
                   .task-item__content-header.ui-checkbox-wrapper
                     input.task-item__content-checkbox.ui-checkbox(type='checkbox', v-model="task.completed")
@@ -103,8 +103,16 @@ export default {
         title: this.titleEditing,
         description: this.descEditing
       })
-      // close popup after
+      // close popup after editing
       this.editing = !this.editing
+    },
+
+    deleteTask (id) {
+      this.$store.dispatch('deleteTask', id)
+        .then(() => {
+          console.log('Task deleted!')
+          this.$store.dispatch('loadTasks')
+        })
     }
   },
 

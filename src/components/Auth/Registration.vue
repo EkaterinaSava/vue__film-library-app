@@ -40,10 +40,13 @@
                 .form__error-msg(v-if="!$v.passwordRepeat.required") Attention! Field is required
                 .form__error-msg(v-if="!$v.passwordRepeat.sameAsPassword") Passwords must be identical
               .form__btn-wrapper
-                button.button.button-primary.form__btn(type="submit", :disabled="submitStatus === 'PENDING'") Registration
+                button.button.button-primary.form__btn(type="submit")
+                  span(v-if="loading") Loading... Please, wait
+                  span(v-else) Registration
                 .form__btn-status(v-if="submitStatus === 'OK'") Thanks for your submission!
                 .form__btn-status(v-if="submitStatus === 'ERROR'") Please fill the form correctly.
-                .form__btn-status(v-if="submitStatus === 'PENDING'") Sending...
+                .form__btn-status(v-else) {{ submitStatus }}
+                //- .form__btn-status(v-if="submitStatus === 'PENDING'") Sending...
           // —————————— GO TO LOGIN LINK —————————————————————
         .go-to__login
           span.go-to__login-text Already registred?
@@ -85,17 +88,35 @@ export default {
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
       } else {
-        console.log('submit!')
+        // console.log('submit!')
+
         const user = {
           email: this.email,
           password: this.password
         }
-        console.log(user)
-        this.submitStatus = 'PENDING'
-        setTimeout(() => {
-          this.submitStatus = 'OK'
-        }, 500)
+
+        this.$store.dispatch('registerUser', user)
+          .then(() => {
+            console.log('User Registred!')
+            this.submitStatus = 'OK'
+            this.$router.push('/')
+          })
+          .catch(err => {
+            this.submitStatus = err.message
+          })
+
+        // console.log(user)
+        // this.submitStatus = 'PENDING'
+        // setTimeout(() => {
+        //   this.submitStatus = 'OK'
+        // }, 500)
       }
+    }
+  },
+
+  computed: {
+    loading () {
+      return this.$store.getters.loading
     }
   }
 }

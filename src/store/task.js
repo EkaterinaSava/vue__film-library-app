@@ -12,6 +12,14 @@ export default {
 
     newTask (state, payload) {
       state.tasks.push(payload)
+    },
+
+    editTask (state, {id, title, description}) {
+      const task = state.tasks.find(t => {
+        return t.id === id
+      })
+      task.title = title
+      task.description = description
     }
   },
 
@@ -82,6 +90,25 @@ export default {
           ...newTask,
           id: task.key
         })
+        commit('setLoading', true)
+      } catch (error) {
+        commit('setLoading', false)
+        commit('setError', error.message)
+        throw error
+      }
+    },
+
+    async editTask ({commit}, {id, title, description}) {
+      commit('clearError')
+      commit('setLoading', true)
+      try {
+        // if 'done' logic:
+        await firebase.database().ref('tasks').child(id).update({
+          title,
+          description
+        })
+        commit('editTask', {id, title, description})
+
         commit('setLoading', true)
       } catch (error) {
         commit('setLoading', false)

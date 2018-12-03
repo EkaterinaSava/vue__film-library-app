@@ -34,15 +34,80 @@
                     .ui-tag__wrapper(v-for="tag in task.tags", :key="tag.title")
                       .ui-tag
                         span.tag-title {{ tag.title}}
+                    // Buttons
+                    .buttons-list
+                      .button.button--round.button-default(
+                        @click="taskEdit(task.id, task.title, task.description)"
+                      ) Edit
+                      .button.button--round.button-primary Done
+
+    // Edit popup
+    .ui-messageBox__wrapper(
+      v-if="editing"
+      :class="{active: editing}"
+    )
+      .ui-messageBox.fadeInDown
+        .ui-messageBox__header
+          span.messageBox-title {{ titleEditing }}
+          span.button-close(@click="cancelTaskEdit")
+        .ui-messageBox__content
+          p Title
+          input(
+            type="text"
+            v-model='titleEditing'
+          )
+          p Description
+          textarea(
+            type="text"
+            v-model='descEditing'
+          )
+        .ui-messageBox__footer
+          .button.button-light(@click="cancelTaskEdit") Cancel
+          .button.button-primary(@click="finishTaskEdit") OK
 </template>
 
 <script>
 export default {
   data () {
     return {
-      filter: 'active'
+      filter: 'active',
+      editing: false,
+      titleEditing: '',
+      descEditing: '',
+      taskId: null
     }
   },
+
+  methods: {
+    taskEdit (id, title, description) {
+      this.editing = !this.editing
+      // console.log({id, title, description})
+
+      this.taskId = id
+      this.titleEditing = title
+      this.descEditing = description
+    },
+
+    cancelTaskEdit () {
+      this.editing = !this.editing
+
+      // reset
+      this.taskId = null
+      this.titleEditing = ''
+      this.descEditing = ''
+    },
+
+    finishTaskEdit () {
+      this.$store.dispatch('editTask', {
+        id: this.taskId,
+        title: this.titleEditing,
+        description: this.descEditing
+      })
+      // close popup after
+      this.editing = !this.editing
+    }
+  },
+
   computed: {
     tasksFilter () {
       if (this.filter === 'active') {
@@ -133,4 +198,11 @@ export default {
       background-color #dcdfe6
       opacity .3
       cursor default
+
+// popup stuff
+.ui-messageBox__wrapper
+  &.active
+    display flex
+  .button-light
+    margin-right 10px
 </style>

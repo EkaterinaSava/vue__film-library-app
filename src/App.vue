@@ -59,24 +59,29 @@ export default {
 </script>
 
 <style lang="stylus">
+  // ——common styles——
+  body
+    color: #444;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: normal;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+  // ——header——
   .header-logo
     font-size 30px
     font-weight 700
 
-  input
-    font-size 14px
-    line-height 20px
-
-  .console-log
-    display inline-flex
-    color #4fc08d
-    border 1px solid #4fc08d
-    padding 5px
-    margin 10px
-
+  // ——content——
   .content-wrapper
     min-height auto
 
+  // ——'go-to' links——
   .go-to
     &__login
       display flex
@@ -99,6 +104,10 @@ export default {
           border-bottom-color #444ce0
 
   // ——Form Components——
+  input
+    font-size 14px
+    line-height 20px
+
   .form
     &__input
       margin-bottom 0
@@ -191,4 +200,12 @@ export default {
     40%,
     80%
       transform: translate3d(10px, 0, 0);
+
+   // ——helpers——
+  .console-log
+    display inline-flex
+    color #4fc08d
+    border 1px solid #4fc08d
+    padding 5px
+    margin 10px
 </style>

@@ -5,6 +5,7 @@
         .login
           // —————————— REGISTRATION PICTURE —————————————————
           .login__banner
+            img.login__banner-img(src="static/auth.svg")
           // —————————— REGISTRATION FORM ————————————————————
           .login__form
             h1.ui-title-1 Login
@@ -107,6 +108,7 @@ export default {
 
     &__banner
       flex-basis 50%
+      padding 0 100px
 
     &__form
       flex-basis 50%

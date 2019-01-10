@@ -72,6 +72,10 @@ export default {
     flex-direction: column;
     min-height: 100vh;
 
+  h1, h2, h3, h4, h5, h6 {
+    line-height 1;
+  }
+
   // ——header——
   .header-logo
     font-size 30px

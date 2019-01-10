@@ -2,11 +2,13 @@
   .content-wrapper
     section
       .container
+
         .login
-          // —————————— REGISTRATION PICTURE —————————————————
+          // —————————— LOGIN PICTURE ————————————————————
           .login__banner
             img.login__banner-img(src="static/auth.svg")
-          // —————————— REGISTRATION FORM ————————————————————
+
+          // —————————— LOGIN FORM ———————————————————————
           .login__form
             h1.ui-title-1 Login
             form.form__inner(@submit.prevent="onSubmit")
@@ -38,6 +40,7 @@
                 .form__btn-status(v-if="submitStatus === 'ERROR'") Please fill the form correctly.
                 .form__btn-status(v-else) {{ submitStatus }}
                 //- .form__btn-status(v-if="submitStatus === 'PENDING'") Sending...
+
           // —————————— GO TO LOGIN LINK —————————————————————
         .go-to__login
           span.go-to__login-text Never was here?
@@ -112,4 +115,12 @@ export default {
 
     &__form
       flex-basis 50%
+
+  @media (max-width: 980px)
+    .login
+      flex-direction column
+
+      &-banner
+        height 0
+        padding 20px 0
 </style>
